@@ -28,21 +28,22 @@ function conservativeForces(K, Kc, Kg, beta, nodes, bbox, disp){
 }
 
 function positionVerlet(K, Kc, Kg, beta, nodes, edges, disp, bbox){
-    conservativeForces(K, Kg, Kc, beta, nodes, bbox, disp)
+    conservativeForces(K, Kg, Kc, beta, nodes, edges, bbox, disp)
 
     //updating poistion and velocity
     w = 0.3
     h = 0.008
     for( let n of nodes){
-        const xprev = n.xprev
-        n.xprev = n
-        n.prevy = n
+
+        xprev = n.xprev
+        n.xprev = n.x
 
         fx = disp[n.index] - w*n.x - 0.001*jiggle
-        dx = (n.x- x.prev)+(fx*h*h)
+        dx = (n.x- xprev)+(fx*h*h)
         n.x = n.x + dx
         n.vx = (n.x - n.xprev) / h
 
+        n.yprev = n
         fy = disp[n.index].y - w*n.y - 0.001*jiggle()
         dy = (n.y - n.yprev) + fy*h*h
         n.y = n.y + dy

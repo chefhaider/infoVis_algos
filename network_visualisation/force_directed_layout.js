@@ -55,7 +55,7 @@ function RepulsiveForce(){
 
 }
 
-function step(K, Kc, Kg, Beta, alpha, beta, nodes, edges, disp, bbox){
+function step(K, Kc, Kg, alpha, beta, nodes, edges, disp, bbox){
     initDisplacements(disp);
     
     nodes.array.forEach((n, i) => {
@@ -85,8 +85,8 @@ function step(K, Kc, Kg, Beta, alpha, beta, nodes, edges, disp, bbox){
         const dy = disp[n.index].y
         const d = Math.sqrt(dx*dx + dy*dy)
         
-        n.x = dx / dn * (Math.min(alpha, d) * 0.001 * Math.random() - 0.5) 
-        n.y = dy / dn * (Math.min(alpha, d) * 0.001 * Math.random() -0.5)
+        n.x = dx /  d * (Math.min(alpha, d) * 0.001 * Math.random() - 0.5) 
+        n.y = dy / d * (Math.min(alpha, d) * 0.001 * Math.random() -0.5)
     })
 
     // Centre the Network
@@ -104,18 +104,12 @@ function step(K, Kc, Kg, Beta, alpha, beta, nodes, edges, disp, bbox){
         n.y += pos.y
     })
 
+    //check the bounding box
     nodes.forEach(n => {
         if (n.x < bbox.xmin) n.x = bbox.xmin;
         if (n.x > bbox.xmax) n.x = bbox.xmax;
         if (n.y < bbox.ymin) n.y = bbox.ymin;
         if (n.y > bbox.ymax) n.y = bbox.ymax;
     });
-
-
-
-
-
-
-
 
 }
